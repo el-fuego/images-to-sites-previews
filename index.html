@@ -1,34 +1,39 @@
-<html>
+<html ng-app="App">
 <head>
     <script type="text/javascript" src="lib/jquery-2.0.3.min.js"></script>
-    <script type="text/javascript" src="app.js"></script>
-    <link rel="stylesheet" href="app.css"/>
-    <link rel="stylesheet" href="templates/1.css"/>
+    <script src="lib/angular.min.js"></script>
+    <script type="text/javascript" src="build/app.js"></script>
+    <link rel="stylesheet" href="build/app.css"/>
 </head>
-<body>
-    <div class="templates">
-        <div class="item">
-            <img src="templates/1.png" alt=""/>
+<body ng-controller="Ctrl">
+    <div class="templates" ng-show="userImages && userImages.length">
+
+        <h1>
+            Yee-haa!
+        </h1>
+        <h2>
+            Now you can select a template:
+        </h2>
+
+        <div class="item {{template.className}}" ng-repeat="template in templates">
+            <link rel="stylesheet" href="{{template.stylesUrl}}"/>
+            <img src="{{template.imageUrl}}" alt=""/>
 
             <div class="user-images">
-                <div class="n1">
-                    <img src="templates/2.png" />
-                </div>
-                <div class="n2">
-                    <img src="templates/3.png" />
-                </div>
-                <div class="n3">
-                    <img src="templates/4.png" />
-                </div>
-                <div class="n4">
-                    <img src="templates/5.png" />
-                </div>
-                <div class="n5">
-                    <img src="templates/5.png" />
+                <div class="n{{$index+1}}" ng-repeat="imageSrc in userImages">
+                    <img src="{{imageSrc}}"/>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="drop-area" ng-show="!userImages || !userImages.length">
+        <h1>
+            Paste your files here
+        </h1>
+
+        using ctrl-v
+    </div>
+    <images-loader add-image="addUserImage(data, name)"></images-loader>
 </body>
 </html>
