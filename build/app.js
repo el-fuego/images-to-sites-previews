@@ -225,10 +225,7 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
 (function($) {
     var clipboardParsers = {},
         defaults,
-        patterns,
-
-        // chrome only supports paste without contentEditable elements
-        needContentEditable = !(/chrome/i).test(window.navigator.userAgent);
+        patterns;
 
     defaults = {
         loadStart: $.noop,
@@ -254,7 +251,7 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
             if (patterns.content.html.test(data)) {
                 return getImagesFromHtml(data, options);
             }
-            return getFilesByPaths(data, options);
+            return getFilesFromText(data, options);
         }
     ];
 
@@ -302,7 +299,7 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
                     if (patterns.content.html.test(data)) {
                         getImagesFromHtml(data, options);
                     } else {
-                        getFilesByPaths(data, options);
+                        getFilesFromText(data, options);
                     }
                 });
                 return true;
@@ -363,7 +360,7 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
             if (patterns.content.html.test(data)) {
                 return getImagesFromHtml(data, options);
             } else {
-                return getFilesByPaths(data, options);
+                return getFilesFromText(data, options);
             }
         }
     ];
@@ -396,8 +393,42 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
         return matchedName ? matchedName[0] : '';
     }
 
+
     /**
-     * Get files by paths at string
+     * Get files patterns
+     * @param data {string}
+     * @param options {Object}
+     * @param options.asBinary {boolean}
+     * @param options.success {function}
+     * @param options.error {function}
+     * @return {boolean} is data found
+     */
+    function getFilesByPattern (data, pattern, options) {
+
+    	var mathedData,
+    		found = false;
+
+    	while (matchedData = pattern.exec(data)) {
+
+            // add protocol
+            if (patterns.content.localPath.test(matchedData[1]) && !patterns.content.dataImage.test(matchedData[1])) {
+                matchedData[1] = 'file://' + matchedData[1];
+            }
+
+            // return URL for viewing only
+            if (!options.asBinary) {
+                options.success(matchedData[1], getFileName(matchedData[1]));
+            } else {
+                loadImageFile(matchedData[1], options);
+            }
+            found = true;
+    	}
+
+    	return found;
+    }
+
+    /**
+     * Get files by paths, URLs or dataURLs
      * Used for paste files at linux
      * @param data {string}
      * @param options {Object}
@@ -406,32 +437,17 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
      * @param options.error {function}
      * @return {boolean} is data found
      */
-    function getFilesByPaths(data, options) {
+    function getFilesFromText(data, options) {
 
-        var paths = data.replace(/[\r\t]/g, '').split('\n'),
-            i = 0,
-            l = paths.length;
+        // global pattern must be announced as local variable
+        var pathPattern = /(((https?|ftp|file):\/\/)?([a-z]:|~)?([\\\/][^\\\/\n]+)*[\\\/][^\\\/\n]*\.(png|jpe?g|gif|tiff))/gi,
+        	dataImagePattern = /(data:image[^\s\n]+)/gi,
+        	found = false;
 
-        for (; i < l; i++) {
-
-            if ((patterns.content.path.test(paths[i]) && patterns.content.image.test(paths[i])) || patterns.content.dataImage.test(paths[i])) {
-
-                // add protocol
-                if (patterns.content.localPath.test(paths[i]) && !patterns.content.dataImage.test(paths[i])) {
-                    paths[i] = 'file://' + paths[i];
-                }
-
-                // return URL for viewing only
-                if (!options.asBinary) {
-                    options.success(paths[i], getFileName(paths[i]));
-                } else {
-                    loadImageFile(paths[i], options);
-                }
-                return true;
-            }
-        }
-
-        return false;
+		found = getFilesByPattern(data, pathPattern, options) || found;
+		found = getFilesByPattern(data, dataImagePattern, options) || found;
+        
+        return found;
     }
 
     /**
@@ -452,26 +468,24 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
             found = false;
 
         while (urlMatch = pattern.exec(html)) {
-            found = getFilesByPaths(urlMatch[2], options) || found;
+            found = getFilesFromText(urlMatch[2], options) || found;
         }
 
         return found;
     }
 
     /**
-     * Create $('DIV') if global object at CE mode
+     * Create $('DIV') if global object
      * Return $(el) otherwise
      * @param el {DOM element}
      * @returns {$}
      */
     function getPasteCatcher(el) {
 
-        // create DIV if global object at CE mode
-
         var catcher = $('#pasteCatcher');
 
-        // not at CE mode or not a global catching
-        if (!needContentEditable || ['body', 'window', 'document', window, document].indexOf(el) < 0) {
+        // not a global catching
+        if (['body', 'window', 'document', window, document].indexOf(el) < 0) {
             return $(el);
         }
 
@@ -486,9 +500,27 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
                 position: 'absolute',
                 left: '100%',
                 top: '100%',
-                opacity: 0
+                opacity: 0,
+                overflow: 'hidden'
             })
             .appendTo('body');
+    }
+
+    function readImagesFromCatchersHtml (options) {
+
+    	setTimeout(function(){
+	    	var html = $('#pasteCatcher').html();
+
+	    	if (!html) { return; }
+
+	    	if (patterns.content.html.test(html)) {
+	    		getImagesFromHtml(html, options);
+	    	} else {
+	    		getFilesFromText(html, options);
+	    	}
+
+	    	$('#pasteCatcher').html('');
+    	}, 100);
     }
 
     /**
@@ -510,16 +542,14 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
             var $el = getPasteCatcher(this);
 
             // setup paste event
-            if (needContentEditable) {
-                $el.attr('contentEditable', 'true');
+            $el.attr('contentEditable', 'true');
 
-                // need to be focused
-                $(window).off('keydown.paste').on('keydown.paste', function(event) {
-                    if (event.ctrlKey && (event.keyCode || event.which) === 86) {
-                        $el.focus();
-                    }
-                });
-            }
+            // need to be focused
+            $(window).off('keydown.paste').on('keydown.paste', function(event) {
+                if (event.ctrlKey && (event.keyCode || event.which) === 86) {
+                    $el.focus();
+                }
+            });
 
 
             $el.bind('paste', function(event) {
@@ -527,8 +557,10 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
                 var clipboardData = event.originalEvent.clipboardData,
                     found = false,
                     i;
-                event.stopPropagation();
-                event.preventDefault();
+
+                if (!clipboardData) {
+                	return readImagesFromCatchersHtml (options);
+                }
 
                 // IE
                 // data types: URL, Text
@@ -561,6 +593,12 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
                         // Best browsers
                         found = callParsers('withItems', [clipboardData.types[i], clipboardData.items[i], clipboardData, options]);
                     }
+                }
+                if (found) {
+	                event.stopPropagation();
+	                event.preventDefault();
+                } else {
+                	readImagesFromCatchersHtml (options);
                 }
             });
         });
@@ -612,11 +650,11 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
         },
 
         content: {
-            path: /((https?|ftp|file):\/\/)?([\\\/][^\\\/])*[\\\/][^\\\/].[a-z0-9]+/i,
+            path: /((https?|ftp|file):\/\/)?([a-z]:|~)?([\\\/][^\\\/]+)*[\\\/][^\\\/]*\.[a-z0-9]+/i,
             dataImage: /^data:image/i,
             image: /\.(png|gif|jpe?g|tiff)$/i,
             fileName: /([^\\\/]+)$/i,
-            html: /<[a-z]+[^>]*>/i,
+            html: /<img+[^>]*>/i,
             localPath: /^([\/~]|\\[^\\]|[a-z]:)/i
         }
     }
