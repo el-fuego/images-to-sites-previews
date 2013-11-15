@@ -1,0 +1,48 @@
+{
+    "name": "images-to-sites-previews",
+    "description": "Example application for loading files by ctrl-v and showing sites previews with uploaded images",
+    "version": "0.0.1",
+    "homepage": "https://github.com/el-fuego/images-to-sites-previews.git",
+    "author": {
+        "name": "Yuriy Pulyaev",
+        "email": "watt87@mail.ru"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/el-fuego/images-to-sites-previews.git"
+    },
+    "bugs": {
+        "url": "https://github.com/el-fuego/images-to-sites-previews.git/issues"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url":  "https://github.com/el-fuego/images-to-sites-previews/blob/master/LICENSE.md"
+        }
+    ],
+    "main": "Gruntfile.js",
+    "engines": {
+        "node": ">= 0.8.0"
+    },
+    "scripts": {
+        "test": "grunt test"
+    },
+    "devDependencies": {
+        "grunt-contrib-less": "~0.8.1",
+        "grunt-contrib-coffee": "~0.7.0",
+        "grunt-contrib-watch": "~0.5.3",
+        "grunt-contrib-concat": "~0.3.0",
+        "grunt-contrib-clean": "~0.5.0",
+        "grunt": "~0.4.1"
+    },
+    "peerDependencies": {},
+    "keywords": [
+        "paste",
+        "images",
+        "photo",
+        "load",
+        "upload",
+        "ctrl-v",
+        "templates"
+    ]
+}

@@ -1,0 +1,24 @@
+.one .n1 {
+  left: 53px;
+  top: 70px;
+  width: 233px;
+  height: 132px;
+}
+.one .n2,
+.one .n3,
+.one .n4,
+.one .n5 {
+  left: 53px;
+  top: 217px;
+  width: 50px;
+  height: 28px;
+}
+.one .n3 {
+  left: 114px;
+}
+.one .n4 {
+  left: 175px;
+}
+.one .n5 {
+  left: 236px;
+}

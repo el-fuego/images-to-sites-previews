@@ -1,0 +1,46 @@
+body {
+  font-family: Arial;
+  font-size: 14px;
+}
+.drop-area {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: -198px;
+  margin-left: -306px;
+  padding: 108px 0;
+  width: 612px;
+  text-align: center;
+  outline: 4.5px #eeeeee dashed;
+}
+h1,
+h2 {
+  text-align: center;
+  font-size: 36px;
+}
+h2 {
+  font-size: 27px;
+}
+.templates h1 {
+  margin-top: 90px;
+}
+.templates .item {
+  position: relative;
+  margin: 18px;
+  float: left;
+  overflow: hidden;
+}
+.templates .item:hover {
+  outline: 9px #ff8000 solid;
+}
+.user-images div {
+  position: absolute;
+  overflow: hidden;
+  left: 100%;
+  top: 100%;
+}
+.user-images div img {
+  margin: 0;
+  border: 0;
+  width: 100%;
+}

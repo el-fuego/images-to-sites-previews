@@ -35,8 +35,11 @@ module.exports = (grunt) ->
     concat:
       js:
         src: [
-            'lib/{**/,}*.js',
-            'build/{**/,}*.tmp.js'
+            '{**/,}*.js',
+            'build/*.tmp.js',
+            '!build/app*.js',
+            '!Gruntfile*',
+            '!node_modules/{**/,}*'
           ]
         dest: 'build/app.js'
     clean:
