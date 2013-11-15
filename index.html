@@ -20,8 +20,8 @@
             <img src="{{template.imageUrl}}" alt=""/>
 
             <div class="user-images">
-                <div class="n{{$index+1}}" ng-repeat="imageSrc in userImages">
-                    <img src="{{imageSrc}}"/>
+                <div class="n{{$index+1}}" ng-repeat="image in userImages">
+                    <img src="{{image.url}}"/>
                 </div>
             </div>
         </div>

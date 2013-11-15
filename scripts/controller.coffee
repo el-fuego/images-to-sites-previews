@@ -1,7 +1,9 @@
 ctrl = ($scope)->
 
   $scope.addUserImage = (data, name)->
-    $scope.userImages.push data
+    $scope.userImages.push
+      url:  data
+      name: name
     $scope.$apply()
 
   $scope.userImages = []
