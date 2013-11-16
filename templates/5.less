@@ -1,0 +1,17 @@
+#clip-path(@data) {
+	-ms-clip-path: @arguments;
+	-moz-clip-path: @arguments;
+	-webkit-clip-path: @arguments;
+	clip-path: @arguments;
+}
+
+.five .n1 {
+    left:   124px;
+    top:    48px;
+    width:  164px;
+    height: 102px;
+
+    img {
+	    #clip-path(polygon(9px 9px, 173px 9px, 174px 112px, 167px 112px, 166px 104px, 165px 103px, 164px 102px, 141px 102px, 140px 103px, 139px 104px, 138px 112px, 9px 112px));
+    }
+}

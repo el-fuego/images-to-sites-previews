@@ -1,0 +1,55 @@
+.four .n1,
+.four .n2,
+.four .n3,
+.four .n4,
+.four .n5,
+.four .n6,
+.four .n7 {
+  left: 46px;
+  top: 106px;
+  width: 60px;
+  height: 75px;
+}
+.four .n1 img,
+.four .n2 img,
+.four .n3 img,
+.four .n4 img,
+.four .n5 img,
+.four .n6 img,
+.four .n7 img {
+  width: auto;
+  height: 100%;
+}
+.four .n2 {
+  left: 108px;
+  height: 109px;
+}
+.four .n3 {
+  left: 169px;
+  top: 158px;
+  height: 109px;
+}
+.four .n4 {
+  left: 232px;
+  height: 90px;
+}
+.four .n5 {
+  left: 46px;
+  top: 184px;
+  height: 38px;
+}
+.four .n5 img {
+  height: auto;
+  width: 100%;
+}
+.four .n6 {
+  left: 170px;
+  top: 106px;
+  width: 60px;
+  height: 50px;
+}
+.four .n7 {
+  left: 232px;
+  height: 55px;
+  top: 200px;
+}

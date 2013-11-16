@@ -700,6 +700,9 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
       });
       return $scope.$apply();
     };
+    $scope.selectTemplate = function(template) {
+      return $scope.selectedTemplate = template;
+    };
     $scope.userImages = [];
     return $scope.templates = [
       {

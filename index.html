@@ -13,7 +13,7 @@
             Now you can select a template:
         </h2>
 
-        <div class="item {{template.className}}" ng-repeat="template in templates">
+        <div class="item {{template.className}} {{selectedTemplate == template ? 'selected' : ''}}" ng-repeat="template in templates" ng-click="selectTemplate(template)">
             <link rel="stylesheet" href="{{template.stylesUrl}}"/>
             <img src="{{template.imageUrl}}" alt=""/>
 
