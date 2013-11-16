@@ -440,7 +440,7 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
     function getFilesFromText(data, options) {
 
         // global pattern must be announced as local variable
-        var pathPattern = /(((https?|ftp|file):\/\/)?([a-z]:|~)?([\\\/][^\\\/\n]+)*[\\\/][^\\\/\n]*\.(png|jpe?g|gif|tiff))/gi,
+        var pathPattern = /(((https?|ftp|file):\/\/)?([a-z]:|~|([a-z0-9_\-]+\.)+[a-z0-9_\-]+)?([\\\/][^\\\/\n]+)*[\\\/][^\\\/\n]*\.(png|jpe?g|gif|tiff))/gi,
         	dataImagePattern = /(data:image[^\s\n]+)/gi,
         	found = false;
 
@@ -650,7 +650,7 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
         },
 
         content: {
-            path: /((https?|ftp|file):\/\/)?([a-z]:|~)?([\\\/][^\\\/]+)*[\\\/][^\\\/]*\.[a-z0-9]+/i,
+            path: /((https?|ftp|file):\/\/)?([a-z]:|~|([a-z0-9_\-]+\.)+[a-z0-9_\-]+)?([\\\/][^\\\/]+)*[\\\/][^\\\/]*\.[a-z0-9]+/i,
             dataImage: /^data:image/i,
             image: /\.(png|gif|jpe?g|tiff)$/i,
             fileName: /([^\\\/]+)$/i,
