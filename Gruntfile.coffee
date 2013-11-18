@@ -48,6 +48,13 @@ module.exports = (grunt) ->
           'build/{**/,}*.tmp.*'
         ]
 
+    connect:
+      server:
+        options:
+          keepalive: true
+          port: 9000,
+          base: './'
+
     watch:
       less:
         files: [
@@ -66,6 +73,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-concat'
+  grunt.loadNpmTasks 'grunt-contrib-connect'
   grunt.loadNpmTasks 'grunt-contrib-clean'
 
   grunt.registerTask 'js', ['coffee', 'concat', 'clean']

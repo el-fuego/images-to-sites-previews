@@ -14,12 +14,12 @@
         </h2>
 
         <div class="item {{template.className}} {{selectedTemplate == template ? 'selected' : ''}}" ng-repeat="template in templates" ng-click="selectTemplate(template)">
-            <link rel="stylesheet" href="{{template.stylesUrl}}"/>
-            <img src="{{template.imageUrl}}" alt=""/>
+            <link rel="stylesheet" ng-href="{{template.stylesUrl}}"/>
+            <img ng-src="{{template.imageUrl}}" alt=""/>
 
             <div class="user-images">
                 <div class="n{{$index+1}}" ng-repeat="image in userImages">
-                    <img src="{{image.url}}"/>
+                    <img ng-src="{{image.url}}"/>
                 </div>
             </div>
         </div>
