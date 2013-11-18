@@ -10,4 +10,15 @@ images-to-sites-previews
 <a href="https://github.com/el-fuego/images-to-sites-previews/archive/master.zip">Download</a> project and open **index.html** at your browser to view locally
 
 
-*Note: Chrome blocks the showing local images
+#### Usage
+
+Copy one of:
+* image at your browser
+* image URL
+* text or html with image
+* files from file manager *
+
+Paste it to browser using ctrl+v
+
+
+*Note: some browsers blocks local files reading for security reasons. It is Chrome and Opera for a now
