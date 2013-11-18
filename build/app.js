@@ -393,7 +393,6 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
         return matchedName ? matchedName[0] : '';
     }
 
-
     /**
      * Get files patterns
      * @param data {string}
@@ -403,12 +402,12 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
      * @param options.error {function}
      * @return {boolean} is data found
      */
-    function getFilesByPattern (data, pattern, options) {
+    function getFilesByPattern(data, pattern, options) {
 
-    	var mathedData,
-    		found = false;
+        var mathedData,
+            found = false;
 
-    	while (matchedData = pattern.exec(data)) {
+        while (matchedData = pattern.exec(data)) {
 
             // add protocol
             if (patterns.content.localPath.test(matchedData[1]) && !patterns.content.dataImage.test(matchedData[1])) {
@@ -422,9 +421,9 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
                 loadImageFile(matchedData[1], options);
             }
             found = true;
-    	}
+        }
 
-    	return found;
+        return found;
     }
 
     /**
@@ -441,12 +440,12 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
 
         // global pattern must be announced as local variable
         var pathPattern = /(((https?|ftp|file):\/\/)?([a-z]:|~|([a-z0-9_\-]+\.)+[a-z0-9_\-]+)?([\\\/][^\\\/\n]+)*[\\\/][^\\\/\n]*\.(png|jpe?g|gif|tiff))/gi,
-        	dataImagePattern = /(data:image[^\s\n]+)/gi,
-        	found = false;
+            dataImagePattern = /(data:image[^\s\n]+)/gi,
+            found = false;
 
-		found = getFilesByPattern(data, pathPattern, options) || found;
-		found = getFilesByPattern(data, dataImagePattern, options) || found;
-        
+        found = getFilesByPattern(data, pathPattern, options) || found;
+        found = getFilesByPattern(data, dataImagePattern, options) || found;
+
         return found;
     }
 
@@ -506,23 +505,6 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
             .appendTo('body');
     }
 
-    function readImagesFromCatchersHtml (options) {
-
-    	setTimeout(function(){
-	    	var html = $('#pasteCatcher').html();
-
-	    	if (!html) { return; }
-
-	    	if (patterns.content.html.test(html)) {
-	    		getImagesFromHtml(html, options);
-	    	} else {
-	    		getFilesFromText(html, options);
-	    	}
-
-	    	$('#pasteCatcher').html('');
-    	}, 100);
-    }
-
     /**
      * Read binary file (pasted raw data or from input)
      * @param options {Object}
@@ -559,7 +541,7 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
                     i;
 
                 if (!clipboardData) {
-                	return readImagesFromCatchersHtml (options);
+                    return readImagesFromCatchersHtml(options);
                 }
 
                 // IE
@@ -595,10 +577,10 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
                     }
                 }
                 if (found) {
-	                event.stopPropagation();
-	                event.preventDefault();
+                    event.stopPropagation();
+                    event.preventDefault();
                 } else {
-                	readImagesFromCatchersHtml (options);
+                    readImagesFromCatchersHtml(options);
                 }
             });
         });
@@ -681,6 +663,35 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
         reader.onloadend = options.loadEnd;
         reader.onprogress = options.progress;
         reader[options.asBinary ? 'readAsBinaryString' : 'readAsDataURL'](file);
+    }
+
+    /**
+     * Read html of pasteCatcher and get images
+     * @param options {Object}
+     * @param options.success {function}
+     * @param options.error {function}
+     * @param options.loadStart {function}
+     * @param options.loadEnd {function}
+     * @param options.progress {function}
+     * @param options.asBinary {boolean} call .success() with binary data or URL
+     */
+    function readImagesFromCatchersHtml(options) {
+
+        setTimeout(function() {
+            var html = $('#pasteCatcher').html();
+
+            if (!html) {
+                return;
+            }
+
+            if (patterns.content.html.test(html)) {
+                getImagesFromHtml(html, options);
+            } else {
+                getFilesFromText(html, options);
+            }
+
+            $('#pasteCatcher').html('');
+        }, 100);
     }
 })(jQuery);
 
