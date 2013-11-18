@@ -1,0 +1,24 @@
+.three .n1 {
+  left: 53px;
+  top: 73px;
+  width: 232px;
+  height: 85px;
+}
+.three .n2,
+.three .n3,
+.three .n4,
+.three .n5 {
+  left: 53px;
+  top: 186px;
+  width: 51px;
+  height: 35px;
+}
+.three .n3 {
+  left: 113px;
+}
+.three .n4 {
+  left: 173px;
+}
+.three .n5 {
+  left: 233px;
+}

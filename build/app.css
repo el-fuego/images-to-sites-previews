@@ -29,8 +29,10 @@ h2 {
   margin: 18px;
   float: left;
   overflow: hidden;
+  cursor: pointer;
 }
-.templates .item:hover {
+.templates .item:hover,
+.templates .item.selected {
   outline: 9px #ff8000 solid;
 }
 .user-images div {

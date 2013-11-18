@@ -6,6 +6,9 @@ ctrl = ($scope)->
       name: name
     $scope.$apply()
 
+  $scope.selectTemplate = (template)->
+    $scope.selectedTemplate = template
+
   $scope.userImages = []
 
   $scope.templates = [
