@@ -528,7 +528,8 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
 
             // need to be focused
             $(window).off('keydown.paste').on('keydown.paste', function(event) {
-                if (event.ctrlKey && (event.keyCode || event.which) === 86) {
+                // ctrl + v || cmd + v
+                if ((event.ctrlKey || event.metaKey) && (event.keyCode || event.which) === 86) {
                     $el.focus();
                 }
             });
@@ -538,7 +539,8 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
 
                 var clipboardData = event.originalEvent.clipboardData,
                     found = false,
-                    i;
+                    i,
+                    l;
 
                 if (!clipboardData) {
                     return readImagesFromCatchersHtml(options);
@@ -562,11 +564,10 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
                 // Check type not at items[].type for FF capability
                 // data types: rew image, html, uri-list, plain
 
-                // TODO: add sorting by priority
-                // last matched item is complex object at chrome
-                // but not at Firefox
-                i = clipboardData.types.length;
-                while (i-- && !found) {
+                // TODO: add sorting by priority for using more complex object
+                // First matched item is complex object at chrome but not at Firefox
+                l = clipboardData.types.length;
+                for (i = 0; i < l && !found; i++) {
 
                     // FF
                     if (!clipboardData.items) {
@@ -662,7 +663,11 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
         reader.onloadstart = options.loadStart;
         reader.onloadend = options.loadEnd;
         reader.onprogress = options.progress;
-        reader[options.asBinary ? 'readAsBinaryString' : 'readAsDataURL'](file);
+        try {
+            reader[options.asBinary ? 'readAsBinaryString' : 'readAsDataURL'](file);
+        } catch (e) {
+            options.error(e);
+        }
     }
 
     /**
@@ -768,7 +773,7 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
             });
           },
           error: function() {
-            return alert('can`t load image');
+            return alert('Your browser blocked the loading of images ;(');
           }
         });
       }

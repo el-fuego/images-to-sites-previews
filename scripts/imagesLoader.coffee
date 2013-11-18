@@ -15,7 +15,7 @@ loader = ()->
           name: name
 
       error: ->
-        alert 'can`t load image'
+        alert 'Your browser blocked the loading of images ;('
 
 
 
