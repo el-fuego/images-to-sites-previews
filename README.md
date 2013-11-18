@@ -5,4 +5,6 @@ images-to-sites-previews
 
 > as presentation for my <a href="https://github.com/el-fuego/jQueryPasteFileReader">jqueryPasteFileReader</a> plugin
 
-Download project and open **index.html** at your browser to view this demo
+####<a href="http://htmlpreview.github.io/?https://github.com/el-fuego/images-to-sites-previews/blob/master/index.html">View demo online</a>
+
+<a href="https://github.com/el-fuego/images-to-sites-previews/archive/master.zip">Download</a> project and open **index.html** at your browser to view locally
