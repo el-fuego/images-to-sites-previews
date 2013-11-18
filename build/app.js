@@ -589,8 +589,9 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
                 }
 
                 // FF
+                // data types: binary
                 // *Note: clipboardData.files[i] access is blocked at browser console, but not at code
-                if (clipboardData.files) {
+                if (clipboardData.files && clipboardData.files.length) {
                     l = clipboardData.files.length;
                     for (i = 0; i < l && !found; i++) {
                         try {
@@ -612,7 +613,7 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
 
                 // New browser
                 // Check type not at items[].type for FF capability
-                // data types: rew image, html, uri-list, plain
+                // data types: binary, html, uri-list, plain
                 // sort by priority for using more complex object
                 typesIndexes = getSortedIndexes(clipboardData.types);
                 l = typesIndexes.length;
@@ -693,7 +694,6 @@ document);!angular.$$csp()&&angular.element(document).find("head").prepend('<sty
         content: {
             path: /((https?|ftp|file):\/\/)?([a-z]:|~|([a-z0-9_\-]+\.)+[a-z0-9_\-]+)?([\\\/][^\\\/]+)*[\\\/][^\\\/]*\.[a-z0-9]+/i,
             dataImage: /^data:image/i,
-            image: /\.(png|gif|jpe?g|tiff)$/i,
             fileName: /([^\\\/]+)$/i,
             html: /<img+[^>]*>/i,
             localPath: /^([\/~]|\\[^\\]|[a-z]:)/i
